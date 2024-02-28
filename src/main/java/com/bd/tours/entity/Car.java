@@ -2,7 +2,6 @@ package com.bd.tours.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.lang.NonNull;
 
 @Entity
 @Getter
@@ -10,18 +9,24 @@ import org.springframework.lang.NonNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "hotel", schema = "tours" )
-public class Hotel {
+@Table(name = "car")
+public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+    @NonNull
+    private String brand;
 
     @NonNull
-    private int countRooms;
+    private String category;
 
     @NonNull
-    private String city;
+    private int price;
+
+    @NonNull
+    private int countPlace;
+
+    @NonNull
+    private String location;
 }

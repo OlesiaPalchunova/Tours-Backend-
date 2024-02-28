@@ -2,7 +2,8 @@ package com.bd.tours.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.lang.NonNull;
+
+import java.util.Date;
 
 @Entity
 @Getter
@@ -10,23 +11,21 @@ import org.springframework.lang.NonNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "ticket")
-public class Ticket {
+@Table(name = "mark")
+public class Mark {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
-    private int price;
+    private int mark;
 
-    @NonNull
-    private String category;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "tour_id")
+    private Tour tour;
 
-    @ManyToOne
-    @JoinColumn(name = "flight_id")
-    private Flight flight;
-
-    @OneToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "tourist_id")
     private Tourist tourist;
 }

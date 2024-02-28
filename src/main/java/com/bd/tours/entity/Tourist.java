@@ -41,5 +41,9 @@ public class Tourist {
     @ManyToMany(mappedBy = "tourists", fetch = FetchType.EAGER)
     private Set<TourTime> tourTimes = new HashSet<>();
 
+    @ManyToMany(mappedBy = "tourists", fetch = FetchType.EAGER)
+    private Set<CarRent> carRents = new HashSet<>();
 
+    @ManyToMany(mappedBy = "tourists", fetch = FetchType.EAGER)
+    private Set<HotelAccommodation> hotelAccommodations = new HashSet<>();
 }

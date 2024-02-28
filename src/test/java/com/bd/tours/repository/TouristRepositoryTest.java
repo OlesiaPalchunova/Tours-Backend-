@@ -34,6 +34,7 @@ class TouristRepositoryTest {
 
     @Test
     void updateUsingSaveMethod(){
+//        touristRepository.save(new Tourist(6, ...))
         Long id = 6L;
         Tourist tourist = touristRepository.findById(id).get();
 

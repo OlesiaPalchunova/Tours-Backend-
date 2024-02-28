@@ -1,0 +1,803 @@
+openapi: 3.0.0
+info:
+  title: Tours
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080/api/v1/
+    description: Dev server
+paths:
+  /tourist:
+    post:
+      summary: Создание туриста
+      tags:
+        - Tourist
+      operationId: postTourist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TouristDTO'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TouristDTO"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Изменить данные туриста
+      tags:
+        - Tourist
+      operationId: putHotel
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: int
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TouristDTO'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Hotels"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /hotels:
+    get:
+      summary: Получение списка всех отелей
+      tags:
+        - Hotels
+      operationId: getAllHotels
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Hotels"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /hotels/name:
+    get:
+      summary: Получение списка отелей по названию
+      tags:
+        - Hotels
+      operationId: getHotelByName
+      parameters:
+        - name: name
+          in: query
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Hotels"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /hotels/{hotel_id}:
+    get:
+      summary: Получение списка отелей по id
+      tags:
+        - Hotels
+      operationId: getHotelById
+      parameters:
+        - name: hotel_id
+          in: path
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: int
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Hotels"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Получение списка отелей
+      tags:
+        - Hotels
+      operationId: deleteHotelById
+      parameters:
+        - name: hotel_id
+          in: path
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: int
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:   {}
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /accommodation:
+    get:
+      summary: Получение списка заселений данного отеля
+      tags:
+        - Accommodation
+      operationId: getAccommodationsByHotel
+      parameters:
+        - name: hotel_name
+          in: query
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccommodationDTO"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Изменить данные записи
+      tags:
+        - Accommodation
+      operationId: putAccommodation
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: int
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccommodationDTO'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Hotels"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /accommodation/{tourist_id}:
+    get:
+      summary: Получение списка заселений данного туриста
+      tags:
+        - Accommodation
+      operationId: getAccommodationsByTourist
+      parameters:
+        - name: tourist_id
+          in: path
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: int
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccommodationDTO"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /car:
+    get:
+      summary: Получение список машин
+      tags:
+        - Car
+      operationId: getAllAccommodations
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Car"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /car/location:
+    get:
+      summary: Получение список машин в данной локации
+      tags:
+        - Car
+      operationId: getCarByLocation
+      parameters:
+        - name: location
+          in: query
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Car"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /car/rent/{car_id}:
+    get:
+      summary: Получение список машин
+      tags:
+        - Car
+      operationId: getCarRentById
+      parameters:
+        - name: car_id
+          in: path
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: int
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarRentDTO"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Получение список машин
+      tags:
+        - Car
+      operationId: putCarRentById
+      parameters:
+        - name: car_id
+          in: path
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: int
+        - name: tourist_id
+          in: query
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: int
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarRentDTO'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarRentDTO"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tour:
+    get:
+      summary: Получение списока туров
+      tags:
+        - Tour
+      operationId: getTours
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tour"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tour/{tour_id}:
+    get:
+      summary: Получение тура по id
+      tags:
+        - Tour
+      operationId: getTourById
+      parameters:
+        - name: tour_id
+          in: path
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: int
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tour"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tour/location:
+    get:
+      summary: Получение тура по id
+      tags:
+        - Tour
+      operationId: getTourByLocation
+      parameters:
+        - name: location
+          in: query
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tour"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tour/slot:
+    get:
+      summary: Получение тура по id
+      tags:
+        - Tour
+      operationId: getTourslot
+      parameters:
+        - name: tour_id
+          in: query
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TourTimeDTO"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Получение тура по id
+      tags:
+        - Tour
+      operationId: putTourslot
+      parameters:
+        - name: tour_id
+          in: query
+          required: true
+          description: Индефиктор отеля
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TourTimeDTO'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TourTimeDTO"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Hotel:
+      type: object
+      required:
+        - name
+        - countRooms
+        - city
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Sunrise
+        countRooms:
+          type: integer
+          example: 25
+        city:
+          type: string
+          example: Moscow
+    Hotels:
+      type: array
+      items:
+        $ref: "#/components/schemas/Hotel"
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    AccommodationDTO:
+      type: object
+      required:
+        - id
+        - hotelId
+        - date
+        - price
+        - number
+        - countPlaces
+      properties:
+        id:
+          type: integer
+          example: 1
+        hotelId:
+          type: integer
+          example: 1
+        touristId:
+          type: array
+          items:
+            type: integer
+        date:
+          type: string
+          format: date
+          example: "2024-02-21"
+        price:
+          type: number
+          example: 100.00
+        number:
+          type: integer
+          example: 101
+        countPlaces:
+          type: integer
+          example: 2
+    TouristDTO:
+      type: object
+      required:
+        - firstName
+        - secondName
+        - gender
+        - age
+        - luggage
+        - countChildren
+      properties:
+        id:
+          type: integer
+          example: 1
+        firstName:
+          type: string
+          example: Oleg
+        secondName:
+          type: string
+          example: Petrov
+        gender:
+          type: string
+          example: male
+        age:
+          type: integer
+          example: 47
+        luggage:
+          type: boolean
+          example: true
+        countChildren:
+          type: integer
+          example: 2
+        tourTimesId:
+          type: array
+          items:
+            type: integer
+        carRentsId:
+          type: array
+          items:
+            type: integer
+        hotelAccommodationsId:
+          type: array
+          items:
+            type: integer
+    Tour:
+      type: object
+      required:
+        - name
+        - location
+        - agency_name
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Coliseum Tour
+        location:
+          type: string
+          example: Italy
+        agency_name:
+          type: string
+          example: Apple
+    TourTimeDTO:
+      type: object
+      required:
+        - tour
+        - touristId
+        - dateTimeField
+        - price
+      properties:
+        id:
+          type: integer
+          example: 1
+        tour:
+          type: integer
+          example: 1
+        touristId:
+          type: array
+          items:
+            type: integer
+        dateTimeField:
+          description: Timestamp defined by RFC3339(ISO 8601)
+          type: string
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+    Car:
+      type: object
+      required:
+        - brand
+        - category
+        - price
+        - countPlace
+        - location
+      properties:
+        id:
+          type: integer
+          example: 1
+        brand:
+          type: string
+          example: "Mercedes"
+        category:
+          type: string
+          example: "business"
+        price:
+          type: integer
+          example: 300
+        countPlace:
+          type: integer
+          example: 4
+        location:
+          type: string
+          example: "Mercedes"
+    CarRentDTO:
+      type: object
+      required:
+        - location
+        - dateTimeField
+        - carId
+        - touristId
+      properties:
+        id:
+          type: integer
+          example: 1
+        dateTimeField:
+          description: Timestamp defined by RFC3339(ISO 8601)
+          type: string
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+        carId:
+          type: integer
+          example: 1
+        touristId:
+          type: integer
+    Flight:
+      type: object
+      required:
+        - name
+        - cityDepature
+        - cityArrival
+        - timeDepature
+        - timeArrival
+        - company
+        - ticketIdList
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "D548"
+        cityDepature:
+          type: string
+          example: "Mockow"
+        cityArrival:
+          type: string
+          example: "New York"
+        timeDepature:
+          type: string
+          format: time
+          example: "14:30:00"
+        timeArrival:
+          type: string
+          format: time
+          example: "17:30:00"
+        company:
+          type: string
+          example: "S7"
+        ticketIdList:
+          type: array
+          items:
+            $ref: "#/components/schemas/TicketDTO"
+    TicketDTO:
+      type: object
+      required:
+        - price
+        - category
+        - touristId
+        - flightId
+      properties:
+        id:
+          type: integer
+          example: 1
+        price:
+          type: integer
+          example: 1500
+        category:
+          type: string
+          example: "economy"
+        touristId:
+          type: integer
+          example: 1
+        flightId:
+          type: integer
+          example: 1
+    Comment:
+      required:
+        - id
+        - touristId
+        - tourId
+        - content
+      properties:
+        id:
+          type: integer
+          format: int64
+          nullable: false
+          example: 25
+        touristId:
+          type: integer
+          nullable: false
+          example: 1
+        tourId:
+          type: integer
+          format: int64
+          nullable: false
+          example: 1337
+        dateTimeField:
+          description: Timestamp defined by RFC3339(ISO 8601)
+          type: string
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+        content:
+          type: string
+          nullable: false
+          example: 'Очень понравился рецепт, ставлю класс и 5 звезд'
+    MarkDto:
+      type: object
+      required:
+        - tour
+        - tourist
+        - mark
+      properties:
+        id:
+          type: integer
+          format: int64
+          nullable: false
+          example: 25
+        touristId:
+          type: integer
+          nullable: false
+          example: 1
+        tourId:
+          type: integer
+          format: int64
+          nullable: false
+          example: 30
+        mark:
+          description: Оценка от 1 до 5
+          type: integer
+          format: int32
+          nullable: true
+          example: 5
+
+
+
+
+
+          

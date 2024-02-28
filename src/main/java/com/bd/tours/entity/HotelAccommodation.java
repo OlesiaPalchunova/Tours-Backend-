@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,9 +22,13 @@ public class HotelAccommodation {
     @NonNull
     private int number;
 
-    @ManyToOne
-    @JoinColumn(name = "tourist_id")
-    private Tourist tourist;
+    @ManyToMany
+    @JoinTable(
+            name = "hotel_accommodation_tourist",
+            joinColumns = @JoinColumn(name = "hotel_accommodation_id"),
+            inverseJoinColumns = @JoinColumn(name = "tourist_id")
+    )
+    private Set<Tourist> tourists = new HashSet<>();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "hotel_id")
@@ -34,4 +40,7 @@ public class HotelAccommodation {
 
     @NonNull
     private int price;
+
+    @NonNull
+    private int countPlaces;
 }
