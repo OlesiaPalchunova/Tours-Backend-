@@ -25,6 +25,7 @@ public interface HotelAccommodationRepository extends JpaRepository<HotelAccommo
     @Query("UPDATE HotelAccommodation ha SET ha.tourists = :tourists WHERE ha.id = :accommodationId")
     void setTourists(Long accommodationId, Set<Tourist> tourists);
 
+
 //    @Query("""
 //            SE... where acc.date > :#{#date_from.id}
 //            """)

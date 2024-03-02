@@ -2,6 +2,7 @@ package com.bd.tours.controller;
 
 import com.bd.tours.dto.CarRentDTO;
 import com.bd.tours.dto.HotelAccommodationDTO;
+import com.bd.tours.dto.TourTimeDto;
 import com.bd.tours.entity.Tourist;
 import com.bd.tours.service.TouristService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,9 +57,29 @@ public class TouristController {
     List<CarRentDTO> getCarRent(@RequestParam Long tourist_id) {
         return touristService.getCarRent(tourist_id);
     }
+
     @PutMapping("/tourist/car/rent/{id}")
     @ResponseBody
     void updateCarRent(@PathVariable("id") Long id, @RequestParam Long tourist_id) {
         touristService.updateCarRent(id, tourist_id);
+    }
+
+    @GetMapping("/tourist/tour/time/{id}")
+    @ResponseBody
+    List<TourTimeDto> getTourTimes(@PathVariable("id") Long tourist_id) {
+        return touristService.getTourTime(tourist_id);
+    }
+
+
+    @PutMapping("/tourist/tour/time/{id}")
+    @ResponseBody
+    void getTourTimes(@RequestParam Long tourist_id, @PathVariable("id") Long tour_time_id) {
+        touristService.putTourTime(tour_time_id, tourist_id);
+    }
+
+    @DeleteMapping("/tourist/tour/time/{id}")
+    @ResponseBody
+    void deleteTourTimes(@RequestParam Long tourist_id, @PathVariable("id") Long tour_time_id) {
+        touristService.deleteTourTime(tour_time_id, tourist_id);
     }
 }

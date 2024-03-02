@@ -2,13 +2,14 @@ package com.bd.tours.service;
 
 import com.bd.tours.dto.CarRentDTO;
 import com.bd.tours.dto.HotelAccommodationDTO;
-import com.bd.tours.entity.CarRent;
-import com.bd.tours.entity.HotelAccommodation;
-import com.bd.tours.entity.Tourist;
+import com.bd.tours.dto.TourTimeDto;
+import com.bd.tours.entity.*;
 import com.bd.tours.mapper.CarRentMapper;
 import com.bd.tours.mapper.HotelAccommodationMapper;
+import com.bd.tours.mapper.TourTimeMapper;
 import com.bd.tours.repository.CarRentRepository;
 import com.bd.tours.repository.HotelAccommodationRepository;
+import com.bd.tours.repository.TourTimeRepository;
 import com.bd.tours.repository.TouristRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class TouristService {
     private final HotelAccommodationMapper hotelAccommodationMapper;
     private final CarRentRepository carRentRepository;
     private final CarRentMapper carRentMapper;
+    private final TourTimeRepository tourTimeRepository;
+    private final TourTimeMapper tourTimeMapper;
+
     public Tourist saveTourist(Tourist tourist){
         return touristRepository.save(tourist);
     }
@@ -74,4 +78,41 @@ public class TouristService {
         }
         return new ArrayList<>();
     }
+
+    public List<TourTimeDto> getTourTime(Long tourist_id) {
+        Optional<Tourist> touristOptional = touristRepository.findById(tourist_id);
+        if (touristOptional.isPresent()) {
+            List<TourTime> tourTimes = tourTimeRepository.findByTourists(touristOptional.get());
+            return tourTimeMapper.mapListToDTO(tourTimes);
+        }
+        return new ArrayList<>();
+    }
+
+    public void putTourTime(Long tour_time_id, Long tourist_id) {
+        Optional<TourTime> tourTimeOptional = tourTimeRepository.findById(tour_time_id);
+        Optional<Tourist> touristOptional = touristRepository.findById(tourist_id);
+        if (tourTimeOptional.isPresent() && touristOptional.isPresent()){
+            TourTime tourTime = tourTimeOptional.get();
+            Tourist tourist = touristOptional.get();
+            Set<Tourist> tourists = tourTime.getTourists();
+            tourists.add(tourist);
+            tourTime.setTourists(tourists);
+            tourTimeRepository.save(tourTime);
+        }
+    }
+
+    public void deleteTourTime(Long tour_time_id, Long tourist_id) {
+        Optional<TourTime> tourTimeOptional = tourTimeRepository.findById(tour_time_id);
+        Optional<Tourist> touristOptional = touristRepository.findById(tourist_id);
+        if (tourTimeOptional.isPresent() && touristOptional.isPresent()){
+            TourTime tourTime = tourTimeOptional.get();
+            Tourist tourist = touristOptional.get();
+            Set<Tourist> tourists = tourTime.getTourists();
+            tourists.remove(tourist);
+            tourTime.setTourists(tourists);
+            tourTimeRepository.save(tourTime);
+        }
+    }
+
+
 }
