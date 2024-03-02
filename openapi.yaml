@@ -42,7 +42,7 @@ paths:
           required: true
           description: Индефиктор отеля
           schema:
-            type: int
+            type: integer
       requestBody:
         required: true
         content:
@@ -119,7 +119,7 @@ paths:
           required: true
           description: Индефиктор отеля
           schema:
-            type: int
+            type: integer
       responses:
         '200':
           description: Успешный ответ
@@ -144,7 +144,7 @@ paths:
           required: true
           description: Индефиктор отеля
           schema:
-            type: int
+            type: integer
       responses:
         '200':
           description: Успешный ответ
@@ -193,7 +193,7 @@ paths:
           required: true
           description: Индефиктор отеля
           schema:
-            type: int
+            type: integer
       requestBody:
         required: true
         content:
@@ -225,7 +225,7 @@ paths:
           required: true
           description: Индефиктор отеля
           schema:
-            type: int
+            type: integer
       responses:
         '200':
           description: Успешный ответ
@@ -296,7 +296,7 @@ paths:
           required: true
           description: Индефиктор отеля
           schema:
-            type: int
+            type: integer
       responses:
         '200':
           description: Успешный ответ
@@ -321,13 +321,13 @@ paths:
           required: true
           description: Индефиктор отеля
           schema:
-            type: int
+            type: integer
         - name: tourist_id
           in: query
           required: true
           description: Индефиктор отеля
           schema:
-            type: int
+            type: integer
       requestBody:
         required: true
         content:
@@ -378,7 +378,7 @@ paths:
           required: true
           description: Индефиктор отеля
           schema:
-            type: int
+            type: integer
       responses:
         '200':
           description: Успешный ответ

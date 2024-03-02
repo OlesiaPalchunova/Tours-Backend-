@@ -35,7 +35,7 @@ public class HotelAccommodationService {
         return new HotelAccommodationDTO(
                 accommodation.getId(),
                 accommodation.getHotel().getId(),
-                accommodation.getDate().toString(),
+                accommodation.getDate(),
                 accommodation.getNumber(),
                 accommodation.getPrice(),
                 accommodation.getCountPlaces()

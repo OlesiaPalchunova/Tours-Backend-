@@ -3,7 +3,7 @@ package com.bd.tours.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +36,7 @@ public class HotelAccommodation {
 
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
-    private Date date;
+    private LocalDate date;
 
     @NonNull
     private int price;

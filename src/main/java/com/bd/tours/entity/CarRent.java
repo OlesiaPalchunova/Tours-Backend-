@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -27,11 +25,7 @@ public class CarRent {
     @JoinColumn(name = "car_id")
     private Car car;
 
-    @ManyToMany
-    @JoinTable(
-            name = "car_rent_tourist",
-            joinColumns = @JoinColumn(name = "car_rent_tourist"),
-            inverseJoinColumns = @JoinColumn(name = "tourist_id")
-    )
-    private Set<Tourist> tourists = new HashSet<>();
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "tourist_id")
+    private Tourist tourist;
 }
