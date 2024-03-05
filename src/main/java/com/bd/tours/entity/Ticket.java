@@ -22,6 +22,9 @@ public class Ticket {
     @NonNull
     private String category;
 
+    @NonNull
+    private String place;
+
     @ManyToOne
     @JoinColumn(name = "flight_id")
     private Flight flight;

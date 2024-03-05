@@ -1,18 +1,12 @@
 package com.bd.tours.service;
 
-import com.bd.tours.dto.CarRentDTO;
-import com.bd.tours.dto.HotelAccommodationDTO;
-import com.bd.tours.dto.TourTimeDto;
+import com.bd.tours.dto.*;
 import com.bd.tours.entity.*;
-import com.bd.tours.mapper.CarRentMapper;
-import com.bd.tours.mapper.HotelAccommodationMapper;
-import com.bd.tours.mapper.TourTimeMapper;
-import com.bd.tours.repository.CarRentRepository;
-import com.bd.tours.repository.HotelAccommodationRepository;
-import com.bd.tours.repository.TourTimeRepository;
-import com.bd.tours.repository.TouristRepository;
+import com.bd.tours.mapper.*;
+import com.bd.tours.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -27,10 +21,22 @@ public class TouristService {
     private final CarRentMapper carRentMapper;
     private final TourTimeRepository tourTimeRepository;
     private final TourTimeMapper tourTimeMapper;
+    private final TouristMapper touristMapper;
+    private final TicketRepository ticketRepository;
+    private final TicketMapper ticketMapper;
 
     public Tourist saveTourist(Tourist tourist){
         return touristRepository.save(tourist);
     }
+
+    public TouristDto findById(Long id) {
+        Optional<Tourist> touristOptional = touristRepository.findById(id);
+        if (touristOptional.isPresent()) {
+            return touristMapper.mapToDTO(touristOptional.get());
+        }
+        return null;
+    }
+
 
     public List<HotelAccommodationDTO> findAccommodationsByTourist(Long touristId) {
         Optional<Tourist> optionalTourist = touristRepository.findById(touristId);
@@ -96,7 +102,6 @@ public class TouristService {
             Tourist tourist = touristOptional.get();
             Set<Tourist> tourists = tourTime.getTourists();
             tourists.add(tourist);
-            tourTime.setTourists(tourists);
             tourTimeRepository.save(tourTime);
         }
     }
@@ -109,10 +114,50 @@ public class TouristService {
             Tourist tourist = touristOptional.get();
             Set<Tourist> tourists = tourTime.getTourists();
             tourists.remove(tourist);
-            tourTime.setTourists(tourists);
             tourTimeRepository.save(tourTime);
         }
     }
 
 
+    @Transactional
+    public void deleteCarRent(Long tour_time_id) {
+        Optional<CarRent> carRentOptional = carRentRepository.findById(tour_time_id);
+        if (carRentOptional.isPresent()) {
+            CarRent carRent = carRentOptional.get();
+            carRent.setTourist(null);
+            carRentRepository.save(carRent);
+        }
+    }
+
+    @Transactional
+    public List<TicketDto> findTicketsByTourist(Long tourist_id) {
+        Optional<Tourist> touristOptional = touristRepository.findById(tourist_id);
+        if (touristOptional.isPresent()){
+            List<Ticket> tickets = ticketRepository.findByTourist(touristOptional.get());
+            return ticketMapper.mapListToDTO(tickets);
+        }
+        return new ArrayList<>();
+    }
+
+    @Transactional
+    public void updateTicket(Long tourist_id, Long ticket_id) {
+        Optional<Tourist> touristOptional = touristRepository.findById(tourist_id);
+        Optional<Ticket> ticketOptional = ticketRepository.findById(ticket_id);
+        if (touristOptional.isPresent() && ticketOptional.isPresent()){
+            Tourist tourist = touristOptional.get();
+            Ticket ticket = ticketOptional.get();
+            ticket.setTourist(tourist);
+            ticketRepository.save(ticket);
+        }
+    }
+
+    @Transactional
+    public void deleteTicket(Long ticket_id) {
+        Optional<Ticket> ticketOptional = ticketRepository.findById(ticket_id);
+        if (ticketOptional.isPresent()){
+            Ticket ticket = ticketOptional.get();
+            ticket.setTourist(null);
+            ticketRepository.save(ticket);
+        }
+    }
 }

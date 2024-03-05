@@ -1,12 +1,10 @@
 package com.bd.tours.entity;
 
 import jakarta.persistence.*;
-import jdk.jfr.Timespan;
 import lombok.*;
 import org.springframework.lang.NonNull;
 
 import java.sql.Time;
-import java.util.List;
 
 @Entity
 @Getter
@@ -38,6 +36,6 @@ public class Flight {
     @NonNull
     private String company;
 
-    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
-    private List<Ticket> ticketList;
+//    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
+//    private List<Ticket> ticketList;
 }

@@ -1,11 +1,10 @@
 package com.bd.tours.controller;
 
-import com.bd.tours.dto.CarRentDTO;
-import com.bd.tours.dto.HotelAccommodationDTO;
-import com.bd.tours.dto.TourTimeDto;
+import com.bd.tours.dto.*;
 import com.bd.tours.entity.Tourist;
 import com.bd.tours.service.TouristService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,9 +33,16 @@ public class TouristController {
         return touristService.saveTourist(tourist);
     }
 
+    @GetMapping("/tourist/{id}")
+    @ResponseBody
+    TouristDto getTourist(@PathVariable("id") Long id ) {
+        return touristService.findById(id);
+    }
+
+
     @GetMapping("/tourist/accommodation")
     @ResponseBody
-    List<HotelAccommodationDTO> get(@RequestParam Long tourist_id){
+    List<HotelAccommodationDTO> getAccommodations(@RequestParam Long tourist_id){
         return touristService.findAccommodationsByTourist(tourist_id);
     }
 
@@ -64,6 +70,13 @@ public class TouristController {
         touristService.updateCarRent(id, tourist_id);
     }
 
+    @DeleteMapping("/tourist/car/rent/{id}")
+    @ResponseBody
+    ResponseEntity<Void> deleteCarRent(@PathVariable("id") Long id) {
+        touristService.deleteCarRent(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/tourist/tour/time/{id}")
     @ResponseBody
     List<TourTimeDto> getTourTimes(@PathVariable("id") Long tourist_id) {
@@ -81,5 +94,23 @@ public class TouristController {
     @ResponseBody
     void deleteTourTimes(@RequestParam Long tourist_id, @PathVariable("id") Long tour_time_id) {
         touristService.deleteTourTime(tour_time_id, tourist_id);
+    }
+
+    @GetMapping("/tourist/ticket/{id}")
+    @ResponseBody
+    List<TicketDto> findTicketsByTourist(@PathVariable("id") Long id) {
+        return touristService.findTicketsByTourist(id);
+    }
+
+    @PutMapping("/tourist/ticket/{ticket_id}")
+    @ResponseBody
+    void putTicket(@PathVariable("ticket_id") Long ticket_id, @RequestParam Long tourist_id) {
+        touristService.updateTicket(tourist_id, ticket_id);
+    }
+
+    @DeleteMapping("/tourist/ticket/{ticket_id}")
+    @ResponseBody
+    void putTicket(@PathVariable("ticket_id") Long ticket_id) {
+        touristService.deleteTicket(ticket_id);
     }
 }
