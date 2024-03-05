@@ -2,8 +2,10 @@ package com.bd.tours.controller;
 
 import com.bd.tours.dto.*;
 import com.bd.tours.entity.Tourist;
+import com.bd.tours.service.CommentService;
+import com.bd.tours.service.MarkService;
 import com.bd.tours.service.TouristService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +14,12 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
+@AllArgsConstructor
 public class TouristController {
 
-    @Autowired
-    private TouristService touristService;
+    private final TouristService touristService;
+    private final CommentService commentService;
+    private final MarkService markService;
 
     @PostMapping("/tourist")
     @ResponseBody
@@ -110,7 +114,49 @@ public class TouristController {
 
     @DeleteMapping("/tourist/ticket/{ticket_id}")
     @ResponseBody
-    void putTicket(@PathVariable("ticket_id") Long ticket_id) {
+    void deleteTicket(@PathVariable("ticket_id") Long ticket_id) {
         touristService.deleteTicket(ticket_id);
+    }
+
+    @PostMapping("/tourist/tour/comment")
+    @ResponseBody
+    void postComment(@RequestBody CommentDto commentDto){
+        commentService.saveComment(commentDto);
+    }
+
+    @PutMapping("/tourist/tour/comment")
+    @ResponseBody
+    void putComment(@RequestBody CommentDto commentDto){
+        commentService.saveComment(commentDto);
+    }
+
+    @DeleteMapping("/tourist/tour/comment")
+    @ResponseBody
+    void deleteComment(@RequestBody CommentDto commentDto){
+        commentService.deleteComment(commentDto);
+    }
+
+    @GetMapping("tourist/tour/mark")
+    @ResponseBody
+    int getMark(@RequestParam Long tourist_id, @RequestParam Long tour_id){
+        return markService.getTouristMark(tourist_id, tour_id);
+    }
+
+    @PostMapping("/tourist/tour/mark")
+    @ResponseBody
+    void saveMark(@RequestBody MarkDto markDto){
+        markService.saveMark(markDto);
+    }
+
+    @PutMapping("/tourist/tour/mark")
+    @ResponseBody
+    void putMark(@RequestBody MarkDto markDto){
+        markService.saveMark(markDto);
+    }
+
+    @DeleteMapping("/tourist/tour/mark")
+    @ResponseBody
+    void deleteMark(@RequestBody MarkDto markDto){
+        markService.deleteMark(markDto);
     }
 }

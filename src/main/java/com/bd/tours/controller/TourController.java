@@ -1,7 +1,10 @@
 package com.bd.tours.controller;
 
+import com.bd.tours.dto.CommentDto;
 import com.bd.tours.dto.TourTimeDto;
 import com.bd.tours.entity.Tour;
+import com.bd.tours.service.CommentService;
+import com.bd.tours.service.MarkService;
 import com.bd.tours.service.TourService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,8 @@ import java.util.List;
 public class TourController {
 
     private final TourService tourService;
+    private final CommentService commentService;
+    private final MarkService markService;
 
     @GetMapping("/tour")
     @ResponseBody
@@ -40,5 +45,17 @@ public class TourController {
     @ResponseBody
     List<TourTimeDto> findTourTime(@RequestParam Long tour_id){
         return tourService.findTourTime(tour_id);
+    }
+
+    @GetMapping("/tour/{id}/comment")
+    @ResponseBody
+    List<CommentDto> findComments(@PathVariable("id") Long tour_id) {
+        return commentService.findCommentsByTour(tour_id);
+    }
+
+    @GetMapping("/tour/{id}/mark")
+    @ResponseBody
+    Double findAvgMark(@PathVariable("id") Long tour_id) {
+        return markService.avgMark(tour_id);
     }
 }
